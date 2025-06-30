@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // صفحات المستخدم
 import Home from '../views/HoMe.vue'
-import Starlink from '../views/ٍStarlinkPage.vue'
+import Starlink from '../views/StarlinkPage.vue'
 import Tagdem from '../views/TagdemElec.vue'
 import Login from '../views/loGin.vue'
 import Signup from '../views/signUp.vue'
