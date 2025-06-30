@@ -69,6 +69,7 @@ onMounted(() => {
   // تأكد من وجود مستخدم وأنه أدمن
   if (!stored?.user || stored.user.role !== 'admin') {
     router.push('/profile')
+    console.log(stored.user.role)
   }
 })
 const editData = ref({
