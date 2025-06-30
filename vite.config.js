@@ -10,7 +10,14 @@ export default defineConfig({
     alias : {
       '@': resolve(__dirname, 'src')
 
-    }
+    }  , 
+     build: {
+    outDir: 'dist',
+  },
+  // ✨ هذا الجزء مهم
+  server: {
+    historyApiFallback: true,
+  },
   },
   base : '/'
 })
