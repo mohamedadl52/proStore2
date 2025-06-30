@@ -6,7 +6,7 @@ import Starlink from '../views/StarlinkPage.vue'
 import Login from '../views/loGin.vue'
 import Signup from '../views/signUp.vue'
 import Profile from '../views/proFile.vue'
-import Whous from '../views/HowUs.vue'
+import Whous from '../views/howUs.vue'
 import Contact from '../views/contactUs.vue'
 import Tagdem from '../views/tagdemElec.vue'
 
