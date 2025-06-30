@@ -7,8 +7,8 @@ import Login from '../views/loGin.vue'
 import Signup from '../views/signUp.vue'
 import Profile from '../views/proFile.vue'
 import Whous from '../views/HowUs.vue'
-import Contact from '../views/ContactUs.vue'
-import Tagdem from '../views/TagdemElec.vue'
+import Contact from '../views/contactUs.vue'
+import Tagdem from '../views/tagdemElec.vue'
 
 // صفحات الأدمن
 import Admin from '../views/admin/AdminPanel.vue'
