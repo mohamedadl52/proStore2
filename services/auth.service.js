@@ -24,6 +24,13 @@ class AuthService {
       return response.data;
     });
 }
+updateProfile(data, token) {
+  return axios.put('http://localhost:8081/api/auth/update-profile', data, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
 
 
   logout() {

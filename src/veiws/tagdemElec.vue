@@ -1,10 +1,72 @@
 <template>
     <div class="p-6 max-w-4xl mx-auto" dir="rtl">
       <h1 class="text-3xl font-bold mb-6 text-center">اختيار الرغبات الجامعية</h1>
+    <!-- 🔔 تنبيهات وتعليمات -->
+<div class="bg-red-100 border border-red-400 text-red-800 p-4 rounded mb-6 text-sm leading-relaxed">
+  <ul class="list-disc pr-4 text-right space-y-2">
+    <li>⚠️ <strong>في حال تم استخراج رقم الاستمارة:</strong> الرجاء عدم تقديم طلب جديد، وتواصل معنا بدلاً من ذلك.</li>
+    <li>📞 <strong>اكتب رقم هاتف صحيح:</strong> يفضل أن يكون مفعّل به واتساب إذا لم يكن يعمل للمكالمات.</li>
+    <li>🚫 <strong>الاستمارة المقدمة لا يمكن تعديلها أو التراجع عنها:</strong> إذا كان هناك خطأ، تواصل معنا قبل اكمال عمليه التقديم ".</li>
+    <li>💵 <strong>الدفع ورفع شعار بنكك:</strong> يتم بالتزامن مع التقديم وبعد التأكيد نبدأ العمل مباشرة.</li>
+    <li>📌 <strong>مراحل الطلب:</strong> 
+      <ul class="list-disc pr-4 mt-1 text-gray-700 text-sm">
+        <li><strong>جاري الفحص:</strong> الطلب تحت المراجعة الأولية.</li>
+        <li><strong>جاري الطلب:</strong> الطلب قيد التنفيذ والتقديم.</li>
+        <li><strong>تم الطلب:</strong> تم إكمال التقديم بنجاح.</li>
+        <li><strong>مرفوض:</strong> لم يتم قبول الطلب (راجع السبب مع المسؤول).</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!-- 📞 طرق التواصل -->
+<div class="bg-green-50 border border-green-400 text-green-800 p-4 rounded mb-6 text-sm leading-relaxed">
+  <p class="mb-2 font-semibold">للاستفسارات أو وجود أي مشكلة يمكنك التواصل معنا عبر:</p>
+  <div class="flex flex-col md:flex-row gap-4 rtl:space-x-reverse">
+    <!-- زر واتساب -->
+    <a
+      href="https://wa.me/249907452551"
+      target="_blank"
+      class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-center w-full md:w-auto"
+    >
+      💬 واتساب: 0907452551
+    </a>
+
+    <!-- زر تيليجرام -->
+    <a
+      href="https://t.me/MhmdAdl52"
+      target="_blank"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-center w-full md:w-auto"
+    >
+      📬 تيليجرام: @MhmdAdl52
+    </a>
+
+    <!-- زر مكالمة -->
+    <a
+      href="tel:+249907452551"
+      class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 text-center w-full md:w-auto"
+    >
+      📞 اتصال مباشر: 0907452551
+    </a>
+  </div>
+</div>
+
+
       <div class="mb-4">
   <label class="block mb-2 font-medium">اسم الطالب:</label>
   <input v-model="studentName" type="text" class="p-2 border rounded w-full" placeholder="أدخل اسمك" />
-</div>  
+</div>
+
+<!-- رقم الهاتف -->
+<div class="mb-4">
+  <label class="block mb-2 font-medium">رقم الهاتف:</label>
+  <input v-model="studentPhone" type="text" class="p-2 border rounded w-full" placeholder="أدخل رقم الهاتف" />
+</div>
+
+<!-- رقم الجلوس -->
+<div class="mb-4">
+  <label class="block mb-2 font-medium">رقم الجلوس:</label>
+  <input v-model="studentSeatNumber" type="text" class="p-2 border rounded w-full" placeholder="أدخل رقم الجلوس" />
+</div> 
       <!-- اختيار الجامعة -->
       <div class="mb-4">
         <label class="block mb-2 font-medium">اختر الجامعة:</label>
@@ -94,12 +156,30 @@
   </template>
   
   <script>
+  import PreferenceService from '../../services/preference.service';
+
   import { jsPDF } from "jspdf";
   import { amiriBase64 } from "@/fonts/amiri"; // استدعاء الخط من ملف خارجي
   export default {
+    mounted() {
+
+},
+watch: {
+  preferences: {
+    handler() {
+      localStorage.setItem('studentPrefs', JSON.stringify({
+        studentName: this.studentName,
+        preferences: this.preferences
+      }));
+    },
+    deep: true
+  }
+} ,
     data() {
       return {
-        studentName: "",
+            studentName: "",
+    studentPhone: "",
+    studentSeatNumber: "",
         universities: [
           {
             name: "جامعة الخرطوم",
@@ -129,7 +209,7 @@
         this.errorMessage = "";
       },
 
-      submitPreferences() {
+   async   submitPreferences() {
   if (this.preferences.length < 1) {
     alert("يجب اختيار 10 رغبات على الأقل");
     return;
@@ -137,6 +217,28 @@
   if (!this.studentName.trim()) {
     alert("الرجاء إدخال اسم الطالب.");
     return;
+  }
+  const stored = JSON.parse(localStorage.getItem('user'));
+  const userId = stored?.user?.id;
+
+  if (!userId) {
+    alert("المستخدم غير مسجل الدخول.");
+    return;
+  }
+
+  try {
+    await PreferenceService.submit({
+      studentName: this.studentName,
+      phone: this.studentPhone,
+      seatNumber: this.studentSeatNumber,
+      preferences: this.preferences
+    });
+
+    alert("✅ تم إرسال الرغبات بنجاح إلى السيرفر!");
+    this.preferences = [];
+  } catch (error) {
+    console.error("فشل الإرسال:", error);
+    alert("حدث خطأ أثناء الإرسال. تأكد من الاتصال بالسيرفر.");
   }
   const doc = new jsPDF();
 
@@ -165,6 +267,7 @@
       const num = `/${index + 1}`;
       const text = `${pref.university} - ${pref.faculty}`;
       
+
       doc.text(num, 180, y, { align: "right" });    // الرقم
       doc.text(text, 170, y, { align: "right" });   // النص
       y += 10;

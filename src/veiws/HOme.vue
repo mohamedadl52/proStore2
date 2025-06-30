@@ -34,19 +34,12 @@
       <h2 class="service-title">{{ service.title }}</h2>
       <img :src="service.img" alt="slider image" />
       <p class="service-description">{{ service.description }}</p>
-      <a href="/starlink" class="order-button">
-        اطلب الآن
-      </a>
+  <a :href="service.link" class="order-button">
+  اطلب الآن
+</a>
     </div>
     </div>
-<div class="services-container">
-    <div v-for="(service, index) in services" :key="index" class="service-card">
-        <h2 class="service-title">{{ service.title }}</h2>
-        <img :src="service.img" alt="slider image" />
-        <p class="service-description">{{ service.description }}</p>
-        <button class="order-button">اطلب الآن</button>
-    </div>
-</div>
+
   </template>
   
   <script setup>
@@ -61,13 +54,10 @@
   import img5 from '@/assets/img5.jpeg'; // استيراد الصورة هنا
   
   // المصفوفة تحتوي الآن على المسارات التي تم استيرادها
-  const services  = [
-    { title: 'STARLINK', description: 'دفع فواتير استارلنك بافضل الاسعار وحل جميع المشاكل بكل امان' , img :  img4 },
-    { title: 'العاب الكترونيه', img: img2 ,  description: 'اشحن جميع العابك بسهوله وبسرعه ' },
-    { title: ' chat gpt اشتراكات ', img: img4, description: 'احصل على جميع انواع الاشتراكات في شات جي بي تي ' },
-    { title: 'فيزات الكترونيه', img: img5, description: 'اشتري فيزتك الالكترونيه  (redot , kast , pockyeay)' },
-    { title: 'قسم الهواتف', img: img1, description: 'فتح هواتف mdm و  honor  و frp samsung' }
-  ]
+const services  = [
+  { title: 'STARLINK', description: 'دفع فواتير استارلنك بافضل الاسعار وحل جميع المشاكل بكل امان', img: img4, link: '/starlink' },
+  { title: 'التقديم الالكتروني', description: 'التقديم للجامعات السودانية بكل سهولة وموثوقية', img: img2, link: '/tagdem' },
+];
   const images = [img1, img2, img3, img4, img5 , img5];
   </script>
   <style scoped>

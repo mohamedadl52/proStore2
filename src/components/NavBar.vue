@@ -1,94 +1,101 @@
-<template>
-    <div>
-      <div class="navbar relative">
-        <div class="flex justify-between items-center p-4 relative">
-          <h1 class="text-sm logode flex items-center gap-2 font-bold uppercase">
-            <img class="w-10" src="@/assets/logoo.png" alt="logo" />
-            <a href="/" class="hover:underline">pro store</a>
 
-          </h1>
-  
-          <!-- قائمة المستخدم -->
-          <div class="relative flex items-center gap-4">
-            <div @click="toggleUserMenu" class="cursor-pointer user-icon">
-  <UserCircle class="w-8 h-8 text-white hover:text-green-300 transition duration-300" />
-</div>
-  
-            <!-- القائمة المنسدلة -->
-            <transition name="fade">
-              <div v-show="isUserMenuOpen" class="user-menu">
-                <a href="#">👤 الملف الشخصي</a>
-                <a href="#">🛠️ الإعدادات</a>
-                <a href="#">🌐 تغيير اللغة</a>
-                <a href="#">🔐 تسجيل الخروج</a>
-              </div>
-            </transition>
-  
-            <!-- زر القائمة الجانبية للموبايل -->
-            <div class="hamburger" :class="{ open: isMenuOpen }" @click="toggleMenu">
-              <div class="bar1"></div>
-              <div class="bar2"></div>
-              <div class="bar3"></div>
+vue
+نسخ
+تحرير
+<template>
+  <div>
+    <div class="navbar relative">
+      <div class="flex justify-between items-center p-4 relative">
+        <h1 class="text-sm logode flex items-center gap-2 font-bold uppercase">
+          <img class="w-10" src="@/assets/logoo.png" alt="logo" />
+          <a href="/" class="hover:underline">pro store</a>
+        </h1>
+
+        <!-- قائمة المستخدم -->
+        <div class="relative flex items-center gap-4">
+          <!-- ✅ صورة البروفايل -->
+          <div @click="toggleUserMenu" class="cursor-pointer user-icon">
+            <img
+              :src="profilePic"
+              alt="صورة المستخدم"
+              class="w-10 h-10 rounded-full object-cover border-2 border-white hover:border-green-300 transition"
+            />
+          </div>
+
+          <!-- القائمة المنسدلة -->
+          <transition name="fade">
+            <div v-show="isUserMenuOpen" class="user-menu">
+              <a href="/profile">👤 الملف الشخصي</a>
+              <a href="#">🛠️ الإعدادات</a>
+              <a href="#">🌐 تغيير اللغة</a>
+              <a href="#">🔐 تسجيل الخروج</a>
             </div>
+          </transition>
+
+          <!-- زر القائمة الجانبية للموبايل -->
+          <div class="hamburger" :class="{ open: isMenuOpen }" @click="toggleMenu">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
           </div>
         </div>
-  
-        <!-- القائمة الرئيسية -->
-        <transition name="slide">
-          <div v-show="isMenuOpen || isDesktop" class="menu cairo-test" :class="{ open: isMenuOpen }">
-            <a href="/" class="hover:underline">الرئيسية</a>
-            <a href="#">من نحن</a>
-            <a href="#">الخدمات</a>
-            <a href="#">تواصل معنا</a>
-          </div>
-        </transition>
       </div>
+
+      <!-- القائمة الرئيسية -->
+      <transition name="slide">
+        <div v-show="isMenuOpen || isDesktop" class="menu cairo-test" :class="{ open: isMenuOpen }">
+          <a href="#">تواصل معنا</a>
+          <a href="#">من نحن</a>
+          <a href="/">الخدمات</a>
+          <a href="/" class="hover:underline">الرئيسية</a>
+        </div>
+      </transition>
     </div>
-  </template>
-  <script>
-  import { UserCircle } from 'lucide-vue-next'
-  export default {
-    data() {
-      return {
-        isMenuOpen: false,
-        isUserMenuOpen: false,
-        isDesktop: false,
-      };
+  </div>
+</template>
+
+<script>
+import profilePic from '@/assets/profile.png'
+
+export default {
+  data() {
+    return {
+      isMenuOpen: false,
+      isUserMenuOpen: false,
+      isDesktop: false,
+      profilePic, // ✅ أضفنا الصورة هنا
+    };
+  },
+  methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
     },
-    components: {
-      UserCircle,
+    toggleUserMenu() {
+      this.isUserMenuOpen = !this.isUserMenuOpen;
     },
-    methods: {
-      toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
-      },
-      toggleUserMenu() {
-        this.isUserMenuOpen = !this.isUserMenuOpen;
-      },
-      closeUserMenuOutside(event) {
-        const menu = document.querySelector(".user-menu");
-        const icon = document.querySelector(".user-icon");
-        if (menu && !menu.contains(event.target) && !icon.contains(event.target)) {
-          this.isUserMenuOpen = false;
-        }
-      },
-      checkScreen() {
-        this.isDesktop = window.innerWidth >= 769;
-        if (this.isDesktop) this.isMenuOpen = false;
-      },
+    closeUserMenuOutside(event) {
+      const menu = document.querySelector(".user-menu");
+      const icon = document.querySelector(".user-icon");
+      if (menu && !menu.contains(event.target) && !icon.contains(event.target)) {
+        this.isUserMenuOpen = false;
+      }
     },
-    mounted() {
-      this.checkScreen();
-      window.addEventListener("resize", this.checkScreen);
-      document.addEventListener("click", this.closeUserMenuOutside);
+    checkScreen() {
+      this.isDesktop = window.innerWidth >= 769;
+      if (this.isDesktop) this.isMenuOpen = false;
     },
-    beforeUnmount() {
-      window.removeEventListener("resize", this.checkScreen);
-      document.removeEventListener("click", this.closeUserMenuOutside);
-    },
-  };
-  </script>
-  
+  },
+  mounted() {
+    this.checkScreen();
+    window.addEventListener("resize", this.checkScreen);
+    document.addEventListener("click", this.closeUserMenuOutside);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.checkScreen);
+    document.removeEventListener("click", this.closeUserMenuOutside);
+  },
+};
+</script>
   
   <style scoped>
   /* باقي التنسيقات نفسها */
