@@ -39,7 +39,7 @@ const stats = ref({
 
 onMounted(async () => {
   try {
-    const res = await axios.get('http://localhost:8081/api/admin/stats')
+    const res = await axios.get('https://prostoreserver.onrender.com/api/admin/stats')
     stats.value = res.data
   } catch (error) {
     console.error('فشل في تحميل الإحصائيات', error)

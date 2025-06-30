@@ -86,7 +86,7 @@ async function fetchOrders() {
     const stored = JSON.parse(localStorage.getItem('user'))
     const token = stored?.token
 
-    const res = await axios.get('http://localhost:8081/api/admin/orders', {
+    const res = await axios.get('https://prostoreserver.onrender.com/api/admin/orders', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -103,7 +103,7 @@ async function updateStatus(order) {
     const stored = JSON.parse(localStorage.getItem('user'))
     const token = stored?.token
 
-    await axios.put(`http://localhost:8081/api/admin/orders/${order._id}`, {
+    await axios.put(`https://prostoreserver.onrender.com/api/admin/orders/${order._id}`, {
       status: order.status
     }, {
       headers: {

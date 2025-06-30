@@ -62,7 +62,7 @@ const selectedOrder = ref({});
 
 onMounted(async () => {
   try {
-    const res = await axios.get('http://localhost:8081/api/orders');
+    const res = await axios.get('https://prostoreserver.onrender.com/api/orders');
     orders.value = res.data;
   } catch (error) {
     alert('فشل تحميل الطلبات');
@@ -76,7 +76,7 @@ function viewDetails(order) {
 
 async function updateStatus(order) {
   try {
-    await axios.put(`http://localhost:8081/api/orders/${order._id}`, { status: order.status });
+    await axios.put(`https://prostoreserver.onrender.com/api/orders/${order._id}`, { status: order.status });
     alert('تم تحديث حالة الطلب');
   } catch (error) {
     alert('فشل تحديث حالة الطلب');
@@ -86,7 +86,7 @@ async function updateStatus(order) {
 async function deleteOrder(id) {
   if (confirm('هل تريد حذف هذا الطلب؟')) {
     try {
-      await axios.delete(`http://localhost:8081/api/orders/${id}`);
+      await axios.delete(`https://prostoreserver.onrender.com/api/orders/${id}`);
       orders.value = orders.value.filter(o => o._id !== id);
     } catch (error) {
       alert('فشل حذف الطلب');

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8081/api/auth/';
+// const API_URL = 'https://prostoreserver.onrender.com/api/auth/';
+const API_URL = 'https://prostoreserver.onrender.com/api/auth/';
 // const API_URL = 'https://shop-le2d.onrender.com/api/user/';
 
 class AuthService {
@@ -25,7 +26,7 @@ class AuthService {
     });
 }
 updateProfile(data, token) {
-  return axios.put('http://localhost:8081/api/auth/update-profile', data, {
+  return axios.put('https://prostoreserver.onrender.com/api/auth/update-profile', data, {
     headers: {
       Authorization: `Bearer ${token}`
     }

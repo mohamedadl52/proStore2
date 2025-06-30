@@ -58,7 +58,7 @@ let currentUserId = ''
 
 // جلب المستخدمين عند التحميل
 onMounted(async () => {
-  const res = await axios.get('http://localhost:8081/api/users')
+  const res = await axios.get('https://prostoreserver.onrender.com/api/users')
   users.value = res.data
 })
 
@@ -70,7 +70,7 @@ function editUser(user) {
 
 async function updateUser() {
   try {
-    await axios.put(`http://localhost:8081/api/users/${currentUserId}`, editData.value)
+    await axios.put(`https://prostoreserver.onrender.com/api/users/${currentUserId}`, editData.value)
     const index = users.value.findIndex(u => u._id === currentUserId)
     users.value[index] = { ...editData.value, _id: currentUserId }
     showEditModal.value = false
@@ -81,7 +81,7 @@ async function updateUser() {
 
 async function deleteUser(id) {
   if (confirm('هل أنت متأكد أنك تريد حذف هذا المستخدم؟')) {
-    await axios.delete(`http://localhost:8081/api/users/${id}`)
+    await axios.delete(`https://prostoreserver.onrender.com/api/users/${id}`)
     users.value = users.value.filter(u => u._id !== id)
   }
 }

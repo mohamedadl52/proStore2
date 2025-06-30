@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-// const API_URL = 'http://localhost:8081/api/product';
-const API_URL = 'https://shop-le2d.onrender.com/api/product';
+// const API_URL = 'https://prostoreserver.onrender.com/api/product';
+// const API_URL = 'https://shop-le2d.onrender.com/api/product';
+const API_URL = 'https://prostoreserver.onrender.com/api/auth/';
 
 class CatogressService {
   add(product) {
