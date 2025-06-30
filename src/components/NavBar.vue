@@ -14,23 +14,31 @@ vue
         <!-- قائمة المستخدم -->
         <div class="relative flex items-center gap-4">
           <!-- ✅ صورة البروفايل -->
-          <div @click="toggleUserMenu" class="cursor-pointer user-icon">
-            <img
-              :src="profilePic"
-              alt="صورة المستخدم"
-              class="w-10 h-10 rounded-full object-cover border-2 border-white hover:border-green-300 transition"
-            />
-          </div>
+          <!-- ✅ فقط تظهر إذا سجل المستخدم الدخول -->
+<div v-if="isLoggedIn" class="relative flex items-center gap-4">
+  <div @click="toggleUserMenu" class="cursor-pointer user-icon">
+    <img
+      :src="profilePic"
+      alt="صورة المستخدم"
+      class="w-10 h-10 rounded-full object-cover border-2 border-white hover:border-green-300 transition"
+    />
+  </div>
 
-          <!-- القائمة المنسدلة -->
-          <transition name="fade">
-            <div v-show="isUserMenuOpen" class="user-menu">
-              <a href="/profile">👤 الملف الشخصي</a>
-              <a href="#">🛠️ الإعدادات</a>
-              <a href="#">🌐 تغيير اللغة</a>
-              <a href="#">🔐 تسجيل الخروج</a>
-            </div>
-          </transition>
+  <!-- القائمة المنسدلة -->
+  <transition name="fade">
+    <div v-show="isUserMenuOpen" class="user-menu">
+      <a href="/profile">👤 الملف الشخصي</a>
+      <a href="#">🛠️ الإعدادات</a>
+      <a href="#">🌐 تغيير اللغة</a>
+      <a href="#" @click="logout">🔐 تسجيل الخروج</a>
+    </div>
+  </transition>
+</div>
+
+<!-- ✅ إذا لم يسجل الدخول -->
+<div v-if="!isLoggedIn">
+  <a href="/login" class="text-white hover:underline">تسجيل الدخول</a>
+</div>
 
           <!-- زر القائمة الجانبية للموبايل -->
           <div class="hamburger" :class="{ open: isMenuOpen }" @click="toggleMenu">
@@ -44,10 +52,10 @@ vue
       <!-- القائمة الرئيسية -->
       <transition name="slide">
         <div v-show="isMenuOpen || isDesktop" class="menu cairo-test" :class="{ open: isMenuOpen }">
-          <a href="#">تواصل معنا</a>
-          <a href="#">من نحن</a>
-          <a href="/">الخدمات</a>
           <a href="/" class="hover:underline">الرئيسية</a>
+          <a href="/">الخدمات</a>
+            <a href="/whous">من نحن</a>
+  <a href="/contact">تواصل معنا</a>
         </div>
       </transition>
     </div>
@@ -64,6 +72,8 @@ export default {
       isUserMenuOpen: false,
       isDesktop: false,
       profilePic, // ✅ أضفنا الصورة هنا
+       isLoggedIn: false, // ✅ جديد
+
     };
   },
   methods: {
@@ -84,11 +94,21 @@ export default {
       this.isDesktop = window.innerWidth >= 769;
       if (this.isDesktop) this.isMenuOpen = false;
     },
+      logout() {
+    localStorage.removeItem("user");
+    this.isLoggedIn = false;
+    window.location.href = "/login";
+  }
   },
   mounted() {
-    this.checkScreen();
-    window.addEventListener("resize", this.checkScreen);
-    document.addEventListener("click", this.closeUserMenuOutside);
+     this.checkScreen();
+  window.addEventListener("resize", this.checkScreen);
+  document.addEventListener("click", this.closeUserMenuOutside);
+
+  const stored = JSON.parse(localStorage.getItem("user"));
+  if (stored?.user) {
+    this.isLoggedIn = true;
+  }
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.checkScreen);

@@ -128,11 +128,25 @@
 
 <script setup>
 import profileImg from '@/assets/profile.png';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted  } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 import AuthService from '../../services/auth.service';
 const orders = ref([]); // الطلبات
 const selectedOrder = ref(null); // الطلب المعروض في المودال
 const showOrderModal = ref(false);
+
+onMounted(() => {
+  const stored = JSON.parse(localStorage.getItem('user'));
+  if (!stored?.user) {
+    router.push('/login'); // التوجيه لصفحة تسجيل الدخول إذا لم يوجد مستخدم
+    return;
+  }
+
+  user.value = { ...stored.user };
+  editUser.value = { ...stored.user };
+});
 onMounted(async () => {
   const stored = JSON.parse(localStorage.getItem('user'));
   if (stored?.user) {

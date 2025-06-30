@@ -57,11 +57,20 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const users = ref([])
 const loading = ref(true)
 
 const editModal = ref(false)
+onMounted(() => {
+  const stored = JSON.parse(localStorage.getItem('user'))
+
+  // تأكد من وجود مستخدم وأنه أدمن
+  if (!stored?.user || stored.user.role !== 'admin') {
+    router.push('/profile')
+  }
+})
 const editData = ref({
   _id: '',
   name: '',
@@ -80,7 +89,7 @@ async function fetchUsers() {
         const stored = JSON.parse(localStorage.getItem('user'))
     const token = stored?.token
 
-    const res = await axios.get('https://prostoreserver.onrender.com/api/admin/users' ,  {
+    const res = await axios.get('http://localhost:8081/api/admin/users' ,  {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -100,14 +109,14 @@ function editUser(user) {
 async function updateUser() {
   try {
     // تحديث المعلومات الأساسية
-    await axios.put(`https://prostoreserver.onrender.com/api/admin/users/${editData.value._id}`, {
+    await axios.put(`http://localhost:8081/api/admin/users/${editData.value._id}`, {
       name: editData.value.name,
       email: editData.value.email,
       phone: editData.value.phone
     })
 
     // تحديث الدور
-    await axios.put(`https://prostoreserver.onrender.com/api/admin/users/${editData.value._id}/role`, {
+    await axios.put(`http://localhost:8081/api/admin/users/${editData.value._id}/role`, {
       role: editData.value.role
     })
 
@@ -120,7 +129,7 @@ async function updateUser() {
 
 // async function updateRole(user) {
 //   try {
-//     await axios.put(`https://prostoreserver.onrender.com/api/admin/users/${user._id}/role`, {
+//     await axios.put(`http://localhost:8081/api/admin/users/${user._id}/role`, {
 //       role: user.role
 //     });
 //     alert('تم تحديث دور المستخدم');
@@ -131,7 +140,7 @@ async function updateUser() {
 async function deleteUser(id) {
   if (confirm('هل أنت متأكد من حذف المستخدم؟')) {
     try {
-      await axios.delete(`https://prostoreserver.onrender.com/api/admin/users/${id}`)
+      await axios.delete(`http://localhost:8081/api/admin/users/${id}`)
       await fetchUsers()
     } catch (error) {
       alert('فشل في الحذف')
