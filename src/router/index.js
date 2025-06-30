@@ -1,38 +1,38 @@
-import {createRouter , createWebHistory} from 'vue-router'
-import Home from '../veiws/HOme.vue'
-import Starlink from '../veiws/ٍStarlinkPage.vue'
-// import Starlink from '../veiws/ٍStarlinkPage.vue'
-import tagdem from '../veiws/tagdemElec.vue'
-// import About from '../veiws/abOut.vue'
-import Login from '../veiws/loGin.vue'
-// import Register from '../veiws/Register.vue'
-import signup from '../veiws/signUp.vue'
-import admin from '../veiws/admin/AdminPanel.vue'
-import dashboard from '../veiws//admin/AdminDashboard.vue'
-import users from '../veiws/admin/AdminUsers.vue'
-import orders from '../veiws/admin/AdminOrders.vue'
-import whous from '../veiws/howUs.vue'
-import contact from '../veiws/contactUs.vue'
-import Profile from '../veiws/ProFile.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
-// rout for scam page  
-//    import  scam from '../veiws/SCAM/inDex.vue'
+// صفحات المستخدم
+import Home from '../views/Home.vue'
+import Starlink from '../views/StarlinkPage.vue'
+import Tagdem from '../views/TagdemElec.vue'
+import Login from '../views/Login.vue'
+import Signup from '../views/Signup.vue'
+import Profile from '../views/Profile.vue'
+import Whous from '../views/HowUs.vue'
+import Contact from '../views/ContactUs.vue'
+
+// صفحات الأدمن
+import Admin from '../views/admin/AdminPanel.vue'
+import Dashboard from '../views/admin/AdminDashboard.vue'
+import Users from '../views/admin/AdminUsers.vue'
+import Orders from '../views/admin/AdminOrders.vue'
+
+// إعداد التوجيه
 const router = createRouter({
-    history : createWebHistory() , 
-    routes : [
-        {path:'/' , name : 'Home' , component : Home } ,
-        {path:'/starlink' , name : 'Starlink' , component : Starlink } ,
-        {path:'/tagdem' , name : 'tagdem' , component : tagdem } ,
-        {path:'/login' , name : 'Login' , component : Login } ,
-        {path:'/signup' , name : 'signup' , component : signup } ,
-        {path: '/profile' , name : 'profile' , component : Profile  } , 
-        {path: '/admin' , name : 'admin' , component : admin  } , 
-        {path: '/admin/dashboard' , name : 'dashboard' , component : dashboard  } , 
-        {path: '/admin/users' , name : 'users' , component : users  } ,
-        {path: '/admin/orders' , name : 'orders' , component : orders  } ,
-        {path: '/contact' , name : 'contact' , component : contact  } ,
-        {path: '/whous' , name : 'whosus' , component : whous  }
-       ]
+  history: createWebHistory(),
+  routes: [
+    { path: '/', name: 'Home', component: Home },
+    { path: '/starlink', name: 'Starlink', component: Starlink },
+    { path: '/tagdem', name: 'Tagdem', component: Tagdem },
+    { path: '/login', name: 'Login', component: Login },
+    { path: '/signup', name: 'Signup', component: Signup },
+    { path: '/profile', name: 'Profile', component: Profile },
+    { path: '/admin', name: 'Admin', component: Admin },
+    { path: '/admin/dashboard', name: 'Dashboard', component: Dashboard },
+    { path: '/admin/users', name: 'Users', component: Users },
+    { path: '/admin/orders', name: 'Orders', component: Orders },
+    { path: '/contact', name: 'Contact', component: Contact },
+    { path: '/whous', name: 'Whous', component: Whous }
+  ]
 })
 
 export default router
