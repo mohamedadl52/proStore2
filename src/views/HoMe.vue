@@ -47,18 +47,17 @@
   import { Autoplay } from 'swiper/modules';
   import 'swiper/css';
   
-  import img1 from '@/assets/img1.png'; // استيراد الصورة هنا
-  import img2 from '@/assets/img2.jpg'; // استيراد الصورة هنا
   import img3 from '@/assets/img3.jpeg'; // استيراد الصورة هنا
   import img4 from '@/assets/img4.jpg'; // استيراد الصورة هنا
   import img5 from '@/assets/img5.jpeg'; // استيراد الصورة هنا
+  import tagdem from '@/assets/tagdem.png'; // استيراد الصورة هنا
   
   // المصفوفة تحتوي الآن على المسارات التي تم استيرادها
 const services  = [
   { title: 'STARLINK', description: 'دفع فواتير استارلنك بافضل الاسعار وحل جميع المشاكل بكل امان', img: img4, link: '/starlink' },
   { title: 'التقديم الالكتروني', description: 'التقديم للجامعات السودانية بكل سهولة وموثوقية', img: img2, link: '/tagdem' },
 ];
-  const images = [img1, img2, img3, img4, img5 , img5];
+  const images = [ img3, tagdem ,  img4, img5 ];
   </script>
   <style scoped>
   .services-container {

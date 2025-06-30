@@ -155,7 +155,7 @@ onMounted(async () => {
 
     // نحاول هنا جلب الطلبات - افترض وجود خدمة طلبات
     try {
-      const res = await fetch(`http://localhost:8081/api/preferences/user/${stored.user.id}`);
+      const res = await fetch(`https://prostoreserver.onrender.com/api/preferences/user/${stored.user.id}`);
       const data = await res.json();
       orders.value = data;
     } catch (err) {
