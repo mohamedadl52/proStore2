@@ -106,7 +106,7 @@ export default {
       exchangeRates: null,
       userCurrencyValue: 0,
       valueInputMode: "", // "manual" أو القيمة الافتراضية
-      priceNow: 2730,
+      priceNow: 2750,
     };
   },
   computed: {
