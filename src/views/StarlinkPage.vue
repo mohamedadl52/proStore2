@@ -245,8 +245,34 @@ visaImageUrl: '',
       selectedCountryData: null,
       exchangeRates: null,
       userCurrencyValue: 0,
-      valueInputMode: "", // "manual" أو القيمة الافتراضية
-      priceNow: 2760,
+      valueInputMode: "",
+      priceNow: 2730,
+      userId: 'test', // لتخزين معرف المستخدم الحالي
+
+      issueForm: {
+        fullName: '',
+        email: '',
+        address: '',
+        phone: '',
+        accountNumber: '',
+        dishNumber: '',
+        kitNumber: '',
+        starlinkID: '',
+        password: '',
+          userId: ''  ,
+        details: ''
+      },
+      loading: false,
+      showForm: false,
+      deviceData: {
+        email: '',
+        password: '',
+      },
+      // بيانات قسم حل المشاكل
+
+      selectedIssue: '',
+      issueDetails: '',
+    
     };
   },
   computed: {
