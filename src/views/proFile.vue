@@ -1,8 +1,8 @@
 <template>
   <div>
       <h1 class="text-3xl font-bold text-center mb-4">الملف الشخصي</h1>
-    <div class="min-h-screen flex items-center justify-center bg-gray-100">
-      <div class="bg-white p-8 rounded-lg shadow-lg text-center w-full max-w-md">
+<div class="py-6 px-4 bg-gray-100 flex justify-center">
+<div class="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-md sm:p-8">
         <!-- صورة المستخدم -->
        <img
   :src="profileImg"
@@ -26,7 +26,18 @@
     <div class="mt-8 bg-white p-4 rounded shadow">
   <h3 class="text-xl font-semibold mb-4 text-center">الطلبات السابقة</h3>
   <div v-if="orders.length">
-<table class="w-full text-right border" dir="rtl">
+    <!-- عرض كبطاقات على الهواتف -->
+<div class="space-y-4 sm:hidden">
+  <div v-for="(order, index) in starlinkOrders" :key="order._id" class="bg-white p-4 rounded shadow border">
+    <p><strong>الرقم:</strong> {{ index + 1 }}</p>
+    <p><strong>نوع المشكلة:</strong> {{ translateIssueType(order.issueType) }}</p>
+    <p><strong>التاريخ:</strong> {{ new Date(order.createdAt).toLocaleDateString() }}</p>
+    <p><strong>الحالة:</strong> {{ order.status }}</p>
+    <button @click="viewStarlinkOrder(order)" class="text-blue-600 hover:underline mt-2">عرض التفاصيل</button>
+  </div>
+</div>
+
+<table class="w-full text-right border hidden sm:table" dir="rtl">
   <thead class="bg-gray-100">
     <tr>
       <th class="border p-2">#</th>
@@ -105,7 +116,7 @@
 
 
 <div style="direction: rtl;" v-if="showStarlinkModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
+<div class="bg-white rounded-lg p-6 w-full max-w-md shadow-xl relative max-h-[90vh] overflow-y-auto">
     <h3 class="text-xl font-bold mb-4 text-center">تفاصيل طلب Starlink</h3>
 
     <div class="text-right space-y-2">
@@ -117,7 +128,7 @@
       <p><strong>تفاصيل:</strong> {{ selectedStarlink.details }}</p>
     </div>
     <div>
-      <div class="mt-4 space-y-4 text-right">
+<div class="mt-4 text-right overflow-x-auto flex space-x-4 rtl:space-x-reverse">
   <div v-if="selectedStarlink.identityImageUrl">
     <p class="font-semibold mb-1">صورة الهوية:</p>
     <img
