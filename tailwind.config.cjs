@@ -9,6 +9,9 @@ module.exports = {
       colors : {
         "maincolor" : "#7e2424",
         "seconcolor" : "#1f2937"
+      } , 
+       fontFamily: {
+        arabic: ['Cairo', 'sans-serif']
       }
     },
   },

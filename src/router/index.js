@@ -16,6 +16,7 @@ import Dashboard from '../views/admin/AdminDashboard.vue'
 import Users from '../views/admin/AdminUsers.vue'
 import Orders from '../views/admin/AdminOrders.vue'
 
+import test from '../views/testImage.vue'
 // إعداد التوجيه
 const router = createRouter({
   history: createWebHistory(),
@@ -31,7 +32,8 @@ const router = createRouter({
     { path: '/admin/users', name: 'Users', component: Users },
     { path: '/admin/orders', name: 'Orders', component: Orders },
     { path: '/contact', name: 'Contact', component: Contact },
-    { path: '/whous', name: 'Whous', component: Whous }
+    { path: '/whous', name: 'Whous', component: Whous } , 
+    { path: '/test', name: 'test', component: test } 
   ]
 })
 

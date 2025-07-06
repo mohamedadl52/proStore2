@@ -55,7 +55,7 @@
   // المصفوفة تحتوي الآن على المسارات التي تم استيرادها
 const services  = [
   { title: 'STARLINK', description: 'دفع فواتير استارلنك بافضل الاسعار وحل جميع المشاكل بكل امان', img: img4, link: '/starlink' },
-  { title: 'التقديم الالكتروني', description: 'التقديم للجامعات السودانية بكل سهولة وموثوقية', img: tagdem, link: '/tagdem' },
+  // { title: 'التقديم الالكتروني', description: 'التقديم للجامعات السودانية بكل سهولة وموثوقية', img: tagdem, link: '/tagdem' },
 ];
 const images = [ img3, tagdem ,  img4, img5 ];
   </script>

@@ -75,6 +75,111 @@
   </div>
 </div>
 
+<!-- starlink -->
+<h3 class="text-xl font-semibold mt-10 mb-4 text-center">طلبات Starlink</h3>
+<div v-if="starlinkOrders.length">
+  <table class="w-full text-right border" dir="rtl">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border p-2">#</th>
+        <th class="border p-2">نوع المشكلة</th>
+        <th class="border p-2">التاريخ</th>
+        <th class="border p-2">الحالة</th>
+        <th class="border p-2">تفاصيل</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(order, index) in starlinkOrders" :key="order._id">
+        <td class="border p-2 text-center">{{ index + 1 }}</td>
+<td class="border p-2 text-center">{{ translateIssueType(order.issueType) }}</td>
+        <td class="border p-2 text-center">{{ new Date(order.createdAt).toLocaleDateString() }}</td>
+        <td class="border p-2 text-center">{{ order.status }}</td>
+        <td class="border p-2 text-center">
+          <button @click="viewStarlinkOrder(order)" class="text-blue-600 hover:underline">عرض</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div v-else class="text-center text-gray-600 mt-4">لا توجد طلبات Starlink بعد.</div>
+
+
+<div style="direction: rtl;" v-if="showStarlinkModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
+    <h3 class="text-xl font-bold mb-4 text-center">تفاصيل طلب Starlink</h3>
+
+    <div class="text-right space-y-2">
+<p><strong>نوع المشكلة:</strong> {{ translateIssueType(selectedStarlink.issueType) }}</p>
+      <p><strong>الاسم:</strong> {{ selectedStarlink.fullName }}</p>
+      <p><strong>البريد الإلكتروني:</strong> {{ selectedStarlink.email }}</p>
+      <p><strong>رقم الهاتف:</strong> {{ selectedStarlink.phone }}</p>
+      <p><strong>الحالة:</strong> {{ selectedStarlink.status }}</p>
+      <p><strong>تفاصيل:</strong> {{ selectedStarlink.details }}</p>
+    </div>
+    <div>
+      <div class="mt-4 space-y-4 text-right">
+  <div v-if="selectedStarlink.identityImageUrl">
+    <p class="font-semibold mb-1">صورة الهوية:</p>
+    <img
+      :src="selectedStarlink.identityImageUrl"
+      alt="صورة الهوية"
+      class="w-24 h-24 rounded shadow-md cursor-pointer object-cover"
+      @click="openImageModal(selectedStarlink.identityImageUrl)"
+    />
+  </div>
+
+  <div v-if="selectedStarlink.invoiceImageUrl">
+    <p class="font-semibold mb-1">صورة الفاتورة:</p>
+    <img
+      :src="selectedStarlink.invoiceImageUrl"
+      alt="صورة الفاتورة"
+      class="w-24 h-24 rounded shadow-md cursor-pointer object-cover"
+      @click="openImageModal(selectedStarlink.invoiceImageUrl)"
+    />
+  </div>
+
+  <div v-if="selectedStarlink.dishImageUrl">
+    <p class="font-semibold mb-1">صورة الطبق:</p>
+    <img
+      :src="selectedStarlink.dishImageUrl"
+      alt="صورة الطبق"
+      class="w-24 h-24 rounded shadow-md cursor-pointer object-cover"
+      @click="openImageModal(selectedStarlink.dishImageUrl)"
+    />
+  </div>
+
+  <div v-if="selectedStarlink.visaImageUrl">
+    <p class="font-semibold mb-1">صورة الفيزا:</p>
+    <img
+      :src="selectedStarlink.visaImageUrl"
+      alt="صورة الفيزا"
+      class="w-24 h-24 rounded shadow-md cursor-pointer object-cover"
+      @click="openImageModal(selectedStarlink.visaImageUrl)"
+    />
+  </div>
+</div>
+
+    </div>
+
+    <button
+      class="absolute top-2 left-2 text-red-500 hover:text-red-700 text-sm"
+      @click="showStarlinkModal = false"
+    >✖️ إغلاق</button>
+  </div>
+</div>
+
+<div v-if="imageModalUrl" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+  <div class="relative">
+    <img :src="imageModalUrl" alt="صورة مكبرة" class="max-w-full max-h-screen rounded shadow-lg" />
+    <button
+      @click="imageModalUrl = ''"
+      class="absolute top-2 left-2 text-white bg-red-600 hover:bg-red-700 px-2 py-1 rounded"
+    >✖️ إغلاق</button>
+  </div>
+</div>
+
+
+<!-- end starlink -->
 
     <!-- Modal -->
     <div
@@ -131,11 +236,59 @@ import profileImg from '@/assets/profile.png';
 import { ref, onMounted  } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
-
+import axios from 'axios';
 import AuthService from '../../services/auth.service';
 const orders = ref([]); // الطلبات
 const selectedOrder = ref(null); // الطلب المعروض في المودال
 const showOrderModal = ref(false);
+const starlinkOrders = ref([]);
+
+const showStarlinkModal = ref(false);
+const selectedStarlink = ref(null);
+
+const imageModalUrl = ref('');
+function openImageModal(url) {
+  imageModalUrl.value = url;
+}
+onMounted(() => {
+  fetchStarlinkOrders();
+});
+function viewStarlinkOrder(order) {
+  selectedStarlink.value = order;
+  showStarlinkModal.value = true;
+}
+
+function translateIssueType(type) {
+  const map = {
+    lostEmail: 'فقد الإيميل',
+    disabledAccount: 'الحساب معطل',
+    unauthorizedSource: 'الشراء من مصدر غير مصرح',
+    stoppedWithID: 'موقوف - مع وجود هوية',
+    noID: 'موقوف - بدون هوية',
+    fine: 'مشكلة غرامة',
+    other: 'مشكلة أخرى'
+  };
+  return map[type] || 'غير معروف';
+}
+async function fetchStarlinkOrders() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('user'));
+    const token = stored?.token;
+     console.log("🚀 Fetching Starlink orders with token:", token);
+    //  console.log("🛠️ Fetching Starlink orders with token:", stored);
+    
+    const res = await axios.get(`http://localhost:8081/api/starlink/user-orders/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    
+    });
+    const data =  res.data;
+    starlinkOrders.value = data;
+  } catch (err) {
+    console.error("خطأ في تحميل طلبات Starlink:", err);
+  }
+}
 
 onMounted(() => {
   const stored = JSON.parse(localStorage.getItem('user'));
@@ -155,7 +308,7 @@ onMounted(async () => {
 
     // نحاول هنا جلب الطلبات - افترض وجود خدمة طلبات
     try {
-      const res = await fetch(`https://prostoreserver.onrender.com/api/preferences/user/${stored.user.id}`);
+      const res = await fetch(`http://localhost:8081/api/preferences/user/${stored.user.id}`);
       const data = await res.json();
       orders.value = data;
     } catch (err) {
@@ -188,6 +341,7 @@ onMounted(() => {
     editUser.value = { ...stored.user };
   }
 });
+
 
 async function saveToServer() {
   try {
