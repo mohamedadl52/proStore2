@@ -495,7 +495,7 @@ console.log("📤 إرسال بيانات المشكلة:", payload);
 
 const userName = storedUser?.user?.name || 'العميل';
 const userPhone = storedUser?.user?.phone || 'رقم غير متوفر';
-const number = '24990752552';  // رقم الهاتف بصيغة دولية
+const number = '249966960254';  // رقم الهاتف بصيغة دولية
  const message = `
   طلب جديد من ${userName} (رقم الهاتف: ${userPhone}):
     نوع المشكلة: ${this.selectedIssue}
@@ -540,6 +540,8 @@ fetch(url)
   if (user && user.user && user.user.id) {
     this.userId = user.user.id;
   }
+} else {
+  this.$router.push('/login')
 }
 
   },
