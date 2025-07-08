@@ -250,7 +250,6 @@ dishPhoto: null,
 visaPhoto: null,
  submitting: false, // ← جديد
 showSuccessModal: false,
-
 identityImageUrl: '',    
 invoiceImageUrl: '',
 dishImageUrl: '',
@@ -261,7 +260,7 @@ visaImageUrl: '',
       exchangeRates: null,
       userCurrencyValue: 0,
       valueInputMode: "",
-      priceNow: 2730,
+      priceNow: null,
       userId: 'test', // لتخزين معرف المستخدم الحالي
 
       issueForm: {
@@ -291,6 +290,7 @@ visaImageUrl: '',
     };
   },
   computed: {
+  
     priceInUSD() {
       if (!this.selectedCountryData || !this.userCurrencyValue || this.selectedCountryData.primaryprice === 0)
         return 0;
@@ -319,6 +319,14 @@ visaImageUrl: '',
     // غيّر الرابط حسب صفحتك
     window.location.href = '/profile';
   },
+  async getPrice(){
+   try {
+    const res = await axios.get('http://localhost:8081/api/admin/price')
+    this.priceNow = res.data.price
+  } catch (err) {
+    console.log('فشل في جلب السعر')
+  }
+  } , 
 
   // دالة إغلاق المودال فقط
   closeModal() {
@@ -561,6 +569,7 @@ fetch(url)
   },  
   mounted() {
     this.fetchExchangeRates();
+    this.getPrice();
     const stored = localStorage.getItem('user');
     if (stored) {
       // console.log("🛠️ LocalStorage user:", stored);

@@ -4,7 +4,14 @@
     <!-- الشريط العلوي للهواتف -->
     <header class="bg-white shadow p-4 flex justify-between items-center lg:hidden">
       <button @click="logout" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">خروج</button>
-      <h1 class="text-lg font-semibold">لوحة التحكم</h1>
+      <h1 class="text-xl font-semibold">لوحة التحكم - 
+  {{
+    view === 'users' ? 'المستخدمين' :
+    view === 'orders' ? 'الطلبات' :
+    view === 'price' ? 'السعر' : ''
+  }}
+</h1>
+
       <button @click="toggleSidebar" class="text-gray-700 text-2xl">☰</button>
     </header>
 
@@ -16,6 +23,7 @@
       >
         <div class="p-4 text-xl font-bold border-b border-gray-700 text-right">لوحة التحكم</div>
         <nav class="px-4 py-6 space-y-2 text-right">
+          <button class="w-full hover:bg-gray-700 p-2 rounded" @click="setView('price')">السعر</button>
           <button class="w-full hover:bg-gray-700 p-2 rounded" @click="setView('users')">المستخدمين</button>
           <button class="w-full hover:bg-gray-700 p-2 rounded" @click="setView('orders')">الطلبات</button>
           <button class="w-full mt-4 lg:hidden bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" @click="logout">
@@ -44,6 +52,8 @@
       <main class="p-4">
         <AdminUsers v-if="view === 'users'" />
         <AdminOrders v-if="view === 'orders'" />
+        <AdminPrice v-if="view === 'price'" />
+
       </main>
     </div>
   </div>
@@ -53,6 +63,7 @@
 import { ref } from 'vue'
 import AdminUsers from './AdminUsers.vue'
 import AdminOrders from './AdminOrders.vue'
+import AdminPrice from './AdminPrice.vue'
 
 const view = ref('users')
 const showSidebar = ref(false)
