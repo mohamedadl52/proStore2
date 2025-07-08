@@ -165,8 +165,8 @@ const images = services.map(service => service.img);
     height: 120px;
   }
   .swiper-slide img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
   }
 }
 
