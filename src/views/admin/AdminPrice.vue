@@ -28,7 +28,7 @@ onMounted(fetchPrice)
 
 async function fetchPrice() {
   try {
-    const res = await axios.get('http://localhost:8081/api/admin/price')
+    const res = await axios.get('https://prostoreserver.onrender.com/api/admin/price')
     price.value = res.data.price
   } catch (err) {
     error.value = 'فشل في جلب السعر'
@@ -37,7 +37,7 @@ async function fetchPrice() {
 
 async function updatePrice() {
   try {
-    const res = await axios.put('http://localhost:8081/api/admin/price', { price: price.value })
+    const res = await axios.put('https://prostoreserver.onrender.com/admin/price', { price: price.value })
 message.value = res.data.msg || 'تم التحديث بنجاح'
     error.value = ''
   } catch (err) {
