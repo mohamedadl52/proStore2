@@ -262,16 +262,16 @@ onMounted(() => {
 });
 function getStarlinkStatusClass(status) {
   switch (status) {
-    case 'قيد التنيذ ':
+    case 'قيد التنفيذ ':
       return 'bg-yellow-100 text-yellow-800';
     case 'تم الحل':
       return 'bg-green-100 text-green-800';
     case 'مرفوض':
       return 'bg-red-100 text-red-800';
-    case 'جاري الفحص':
-      return 'bg-gray-200 text-gray-800';
-    default:
+      case 'جاري الفحص':
       return 'bg-blue-100 text-blue-800'; // حالات أخرى
+      default:
+      return 'bg-gray-200 text-gray-800';
   }
 }
 function translateStatus(status) {
