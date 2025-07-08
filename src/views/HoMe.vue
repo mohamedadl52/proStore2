@@ -16,8 +16,8 @@
       }"
       class="mySwiper"
     >
-      <swiper-slide v-for="(img, index) in images" :key="index">
-        <img  class="w-64 px-4" :src="img" alt="slider image" />
+      <swiper-slide class="px-4" v-for="(img, index) in images" :key="index">
+        <img  class="w-32 " :src="img" alt="slider image" />
       </swiper-slide>
      
 </swiper>
