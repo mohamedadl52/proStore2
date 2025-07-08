@@ -71,7 +71,7 @@ const services  = [
   {
     title: 'PUBG UC',
     description: 'شحن UC داخل لعبة PUBG Mobile',
-    img: 'https://upload.wikimedia.org/wikipedia/ar/1/14/%D8%BA%D9%84%D8%A7%D9%81_%D8%A8%D8%A8%D8%AC%D9%8A_%D9%85%D9%88%D8%A8%D8%A7%D9%8A%D9%84.jpg',
+    img: 'https://megaupp.com/wp-content/uploads/2018/11/pubg-shot-bramjstore.jpg',
     link: '/pubg-uc'
   },
   {
