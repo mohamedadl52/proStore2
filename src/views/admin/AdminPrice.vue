@@ -37,7 +37,7 @@ async function fetchPrice() {
 
 async function updatePrice() {
   try {
-    const res = await axios.put('https://prostoreserver.onrender.com/admin/price', { price: price.value })
+    const res = await axios.put('https://prostoreserver.onrender.com/api/admin/price', { price: price.value })
 message.value = res.data.msg || 'تم التحديث بنجاح'
     error.value = ''
   } catch (err) {

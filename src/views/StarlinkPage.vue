@@ -321,7 +321,7 @@ visaImageUrl: '',
   },
   async getPrice(){
    try {
-    const res = await axios.get('http://localhost:8081/api/admin/price')
+    const res = await axios.get('https://prostoreserver.onrender.com/api/admin/price')
     this.priceNow = res.data.price
   } catch (err) {
     console.log('فشل في جلب السعر')
