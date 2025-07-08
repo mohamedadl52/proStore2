@@ -107,11 +107,12 @@
   <img v-if="visaImageUrl" :src="visaImageUrl" alt="فيزا" style="max-width: 100px; margin-top: 5px;" />
 </div>
 
-
-            <button @click="submitIssue"
-              class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-6 rounded shadow-md transition">
-              إرسال المشكلة
-            </button>
+<button @click="submitIssue"
+  :disabled="submitting"
+  class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-6 rounded shadow-md transition flex items-center justify-center gap-2">
+  <span v-if="!submitting">إرسال المشكلة</span>
+  <span v-else class="animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span>
+</button>
           </div>
         </div>
       </div>
@@ -218,6 +219,18 @@
         </div>
       </div>
     </div>
+<!-- Modal النجاح -->
+<div v-if="showSuccessModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-80 text-center">
+    <h2 class="text-lg font-bold mb-2 text-green-600">تم رفع الطلب بنجاح ✅</h2>
+    <p class="mb-4">اذهب للصفحة الشخصية لرؤية الطلبات.</p>
+    <button @click="goToProfile" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+      الذهاب للصفحة الشخصية
+    </button>
+
+  </div>
+</div>
+
   </div>
 </template>
 
@@ -235,8 +248,10 @@ export default {
 invoiceImage: null,
 dishPhoto: null,
 visaPhoto: null,
+ submitting: false, // ← جديد
+showSuccessModal: false,
 
-identityImageUrl: '',
+identityImageUrl: '',    
 invoiceImageUrl: '',
 dishImageUrl: '',
 visaImageUrl: '',
@@ -299,6 +314,16 @@ visaImageUrl: '',
     }
   },
   methods: {
+      goToProfile() {
+    this.showSuccessModal = false;
+    // غيّر الرابط حسب صفحتك
+    window.location.href = '/profile';
+  },
+
+  // دالة إغلاق المودال فقط
+  closeModal() {
+    this.showSuccessModal = false;
+  },
   handleImageUpload(event, type) {
   const file = event.target.files[0];
   if (!file) return;
@@ -431,6 +456,7 @@ async submitIssue() {
     alert("يرجى اختيار نوع المشكلة.");
     return;
   }
+  this.submitting = true; // ← ابدأ التحميل
 
   const issueType = this.selectedIssue;
   this.issueForm.userId = this.userId;  // ✅ ضعه هنا
@@ -481,14 +507,17 @@ if (this.visaPhoto && !this.visaImageUrl) {
   };
 console.log("📤 إرسال بيانات المشكلة:", payload);
   axios.post("https://prostoreserver.onrender.com/api/starlink/submit-issue", payload)
-    .then(response => {
-      alert("✅ تم إرسال المشكلة بنجاح." , response.data.message);
-    this.$router.push('/profile'); // إعادة التوجيه إلى الصفحة الرئيسية
+    .then(() => {
+        this.submitting = false; // ← أنهي التحميل في كل الأحوال
+      this.showSuccessModal = true;
+
+      // this.$router.push('/profile'); // إعادة التوجيه إلى الصفحة الرئيسية
      
     
     })
     .catch(error => {
       alert("❌ حدث خطأ أثناء إرسال البيانات." , error.message);
+      this.submitting = false; // ← أنهي التحميل عند الخطأ أيضًا
     });
 
     const storedUser = JSON.parse(localStorage.getItem('user'));
