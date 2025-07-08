@@ -94,8 +94,14 @@
         <td class="border p-2 text-center">{{ index + 1 }}</td>
 <td class="border p-2 text-center">{{ translateIssueType(order.issueType) }}</td>
         <td class="border p-2 text-center">{{ new Date(order.createdAt).toLocaleDateString() }}</td>
-        <td class="border p-2 text-center">{{ order.status }}</td>
-        <td class="border p-2 text-center">
+<td class="border p-2 text-center">
+  <span
+    :class="getStarlinkStatusClass(order.status)"
+    class="px-3 py-1 rounded-full text-sm font-medium animate-fade-in"
+  >
+    {{ translateStatus(order.status) }}
+  </span>
+</td>        <td class="border p-2 text-center">
           <button @click="viewStarlinkOrder(order)" class="text-blue-600 hover:underline">عرض</button>
         </td>
       </tr>
@@ -115,7 +121,7 @@
       <p><strong>البريد الإلكتروني:</strong> {{ selectedStarlink.email }}</p>
       <p><strong>رقم الهاتف:</strong> {{ selectedStarlink.phone }}</p>
       <p><strong>الحالة:</strong> {{ selectedStarlink.status }}</p>
-      <p><strong>تفاصيل:</strong> {{ selectedStarlink.details }}</p>
+     <p><strong>تفاصيل:</strong> {{ selectedStarlink.details }}</p>
     </div>
     <div>
       <div class="mt-4 space-y-4 text-right">
@@ -254,6 +260,30 @@ function openImageModal(url) {
 onMounted(() => {
   fetchStarlinkOrders();
 });
+function getStarlinkStatusClass(status) {
+  switch (status) {
+    case 'قيد المعالجة':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'تم الحل':
+      return 'bg-green-100 text-green-800';
+    case 'مرفوض':
+      return 'bg-red-100 text-red-800';
+    case 'مغلق':
+      return 'bg-gray-200 text-gray-800';
+    default:
+      return 'bg-blue-100 text-blue-800'; // حالات أخرى
+  }
+}
+function translateStatus(status) {
+  const map = {
+    'pending': 'قيد المعالجة',
+    'resolved': 'تم الحل',
+    'rejected': 'مرفوض',
+    'closed': 'مغلق'
+  };
+  return map[status] || status;
+}
+
 function viewStarlinkOrder(order) {
   selectedStarlink.value = order;
   showStarlinkModal.value = true;
@@ -375,3 +405,15 @@ async function saveToServer() {
 //   }
 // }
 </script>
+
+
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.1); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 2s ease-out;
+}
+</style>
