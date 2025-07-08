@@ -32,7 +32,7 @@
 <div class="services-container">
     <div v-for="(service, index) in services" :key="index" class="service-card">
       <h2 class="service-title">{{ service.title }}</h2>
-      <img class="w-64 mx-auto" :src="service.img" alt="slider " />
+      <img class="w-32 mx-auto" :src="service.img" alt="slider " />
       <p class="service-description mb-10">{{ service.description }}</p>
   <a :href="service.link" class="order-button ">
   اطلب الآن
