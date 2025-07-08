@@ -64,91 +64,110 @@ const images = services.map(service => service.img);
       
 
   </script>
-  <style scoped>
-.services-container {
+  <style scoped>.services-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
+  gap: 16px;
   margin-top: 20px;
-  padding: 0 10px;
+  padding: 0 12px;
 }
 
-  .service-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* توزيع العناصر داخل البطاقة */
-    flex: 1 1 300px; /* يسمح للبطاقات بالتمدد والامتلاء */
-    max-width: 300px;
-  }.service-card {
-  background-color: #f9f9f9;
+.service-card {
+  background-color: #ffffff;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  direction: rtl;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 16px;
   text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease;
-  width: 100%; /* اجعلها تمتد داخل العمود */
+  direction: rtl;
 }
 
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-title {
+  font-size: 1.2rem;
+  font-family: "Cairo", sans-serif;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.service-description {
+  font-size: 0.95rem;
+  color: #555;
+  font-family: "Cairo", sans-serif;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.service-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+}
+
+.order-button {
+  background-color: #511fdd;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.order-button:hover {
+  background-color: #3f19b5;
+}
+
+/* السلايدر */
+.mySwiper {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide:hover img {
+  transform: scale(1.08);
+}
+
+@media (min-width: 768px) {
+  .service-card {
+    padding: 20px;
+  }
   .service-title {
-    font-size: 1.5rem;
-    font-family: 'Courier New', Courier, monospace , sans-serif;
-    color: #333;
-    margin-bottom: 10px;
+    font-size: 1.4rem;
   }
   .service-description {
-
-  font-family: "Cairo", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  margin: 10px ;
-  font-style: normal;
-  font-variation-settings:
-    "slnt" 0;
-
     font-size: 1rem;
-    color: #666;
-    margin-bottom: 25px;
   }
-  .mySwiper {
-    width: 100%;
+  .service-card img {
+    width: 120px;
+    height: 120px;
   }
-  
-  .swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
   .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
+    width: 100px;
+    height: 100px;
   }
-  .order-button {
-    background-color: #511fdd;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* عند المرور فوق الصورة (hover) */
-  .swiper-slide:hover img {
-    transform: scale(1.05);
-  }
-  
-  @media (min-width: 768px) {
-    /* تأكد من أن الصور تظهر بتنسيق مناسب للشاشات الكبيرة */
-    .swiper-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* ضبط الصور لتغطية المساحة بالكامل */
-    }
-  }
+}
+
   </style>
