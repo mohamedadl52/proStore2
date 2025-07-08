@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col lg:flex-row min-h-screen relative overflow-x-hidden">
+  <div style="direction: rtl;" class="flex flex-col lg:flex-row min-h-screen relative overflow-x-hidden">
 
     <!-- الشريط العلوي للهواتف -->
     <header class="bg-white shadow p-4 flex justify-between items-center lg:hidden">

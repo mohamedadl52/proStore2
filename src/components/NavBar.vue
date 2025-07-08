@@ -1,7 +1,3 @@
-
-vue
-نسخ
-تحرير
 <template>
   <div>
     <div class="navbar relative">
@@ -26,10 +22,11 @@ vue
 
   <!-- القائمة المنسدلة -->
   <transition name="fade">
-    <div v-show="isUserMenuOpen" class="user-menu">
+    <div style="direction: rtl;" v-show="isUserMenuOpen" class="user-menu">
       <a href="/profile">👤 الملف الشخصي</a>
       <a href="#">🛠️ الإعدادات</a>
       <a href="#">🌐 تغيير اللغة</a>
+      <a v-if="isAdmin" href="/admin" >😎 لوحه الادمن </a>
       <a href="#" @click="logout">🔐 تسجيل الخروج</a>
     </div>
   </transition>
@@ -70,6 +67,7 @@ export default {
     return {
       isMenuOpen: false,
       isUserMenuOpen: false,
+      isAdmin: false, // ✅ جديد
       isDesktop: false,
       profilePic, // ✅ أضفنا الصورة هنا
        isLoggedIn: false, // ✅ جديد
@@ -108,6 +106,9 @@ export default {
   const stored = JSON.parse(localStorage.getItem("user"));
   if (stored?.user) {
     this.isLoggedIn = true;
+  }
+  if (stored?.user.role === "admin") {
+   this.isAdmin = true;
   }
   },
   beforeUnmount() {

@@ -262,7 +262,7 @@ onMounted(() => {
 });
 function getStarlinkStatusClass(status) {
   switch (status) {
-    case 'قيد التنفيذ ':
+    case 'قيد التنفيذ':
       return 'bg-yellow-100 text-yellow-800';
     case 'تم الحل':
       return 'bg-green-100 text-green-800';

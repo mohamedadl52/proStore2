@@ -1,10 +1,10 @@
 <template>
-  <div class="p-6">
+  <div class="p-6 overflow-x-auto">
     <h1 class="text-2xl font-bold mb-6 text-center">إدارة المستخدمين</h1>
 
     <div v-if="loading" class="text-center text-gray-500">جاري التحميل...</div>
 
-    <table v-else class="w-full table-auto border">
+    <table  v-else class="w-full min-w-[600px] table-auto border">
       <thead class="bg-gray-100">
         <tr>
           <th class="border p-2">#</th>
@@ -150,3 +150,11 @@ async function deleteUser(id) {
   }
 }
 </script>
+<style scoped>
+/* اجعل الجدول قابل للتمرير الأفقي */
+.overflow-x-auto {
+  overflow-x: auto;
+  width: 100%;
+}
+
+</style>

@@ -1,13 +1,13 @@
 <template>
-  <div class="p-6">
+  <div class="p-6 overflow-x-auto">
     <h1 class="text-2xl font-bold mb-6 text-center">إدارة الطلبات</h1>
 
     <div v-if="loading" class="text-center text-gray-500">جاري التحميل...</div>
 
-    <table v-else class="w-full text-right table-auto border">
+    <table v-else class="w-full text-right   min-w-[600px] table-auto border">
       <thead class="bg-gray-100">
         <tr>
-        <th class="border p-2">#</th>
+      <th class="border p-2">#</th>
       <th class="border p-2">اسم المستخدم</th>
       <th class="border p-2">نوع الخدمة</th>
       <th class="border p-2">الحالة</th>
@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(order, index) in orders" :key="order._id">
+      <tr v-for="(order, index) in orders" :key="order._id">
       <td class="border p-2 text-center">{{ index + 1 }}</td>
       <td class="border p-2 text-center">{{ order.userId?.name || 'غير معروف' }}</td>
       <td class="border p-2 text-center">تقديم إلكتروني</td>
@@ -38,7 +38,7 @@
       </tbody>
     </table>
 <h2 class="text-xl font-bold mt-10 mb-4 text-center">طلبات Starlink</h2>
-<table class="w-full text-right table-auto border">
+<table class="w-full text-right  min-w-[600px] table-auto border">
   <thead class="bg-gray-100">
     <tr>
       <th class="border p-2">#</th>
@@ -63,7 +63,7 @@
       <td class="border p-2 text-center">{{ order.status }}</td>
 <td class="border p-2 text-center">
   <select v-model="order.status" @change="updateStarlinkStatus(order)" class="border p-1 rounded">
-    <option>جاري المراجعة</option>
+    <option>جاري الفحص</option>
     <option>قيد التنفيذ</option>
     <option>تم الحل</option>
     <option>مرفوض</option>
@@ -301,3 +301,12 @@ function viewDetails(order) {
 }
 
 </script>
+<style scoped>
+
+/* اجعل الجدول قابل للتمرير الأفقي */
+.overflow-x-auto {
+  overflow-x: auto;
+  width: 100%;
+}
+
+</style>
