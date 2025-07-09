@@ -1,27 +1,38 @@
 <template>
- <div>
-  <navbar>  </navbar>
-<router-view  v-slot="slotProps">
-  <transition name="route" mode="out-in">
-    <component :is="slotProps.Component"></component>
-  </transition>
-</router-view>
- </div>
+  <div id="app" class="layout">
+    
+    <AnnouncementBar/>
+    <navbar />
+    
+    <main class="main-content">
+      <router-view v-slot="slotProps">
+        <transition name="route" mode="out-in">
+          <component :is="slotProps.Component"></component>
+        </transition>
+      </router-view>
+    </main>
+
+    <footers />
+  </div>
 </template>
 
 <script>
+import AnnouncementBar from './components/AnnouncementBar.vue';
 import navbar from './components/NavBar.vue'
+import footers from './components/FooTervue.vue'
 const DEFAULT_TRANSITION = 'fade'
 export default {
+  components: {
+    navbar ,
+    footers ,
+    AnnouncementBar
+  } ,
   data(){
   return  {
     prevHeight  :   0,
     transitionName :DEFAULT_TRANSITION
   }
   } , 
-  components: {
-    navbar
-  } ,
   methods : {
     beforleave(element){
           this.prevHeight = getComputedStyle(element).height
@@ -52,24 +63,21 @@ export default {
     })
   }
 }
-</script>
-<style scoped>
-.route-enter-from,
-.route-leave-to {
-  opacity: 0;
-  transform: translateX(-50px);
+</script><style>
+html,
+body,
+#app,
+.layout {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.route-leave-from,
-.route-enter-to {
-  opacity: 1;
-  transform: translateX(0);
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
-
-.route-leave-active,
-.route-enter-active {
-  transition: all 0.4s ease;
-}
-
 
 </style>

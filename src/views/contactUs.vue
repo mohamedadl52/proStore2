@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8">
+  <div style="direction: rtl;" class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div  class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8">
       <h1 class="text-3xl font-bold text-center text-blue-800 mb-6">تواصل معنا</h1>
 
       <p class="text-center text-gray-700 text-lg mb-6 leading-relaxed">

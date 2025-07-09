@@ -1,75 +1,112 @@
 <template>
-    <h1 style="font-family: 'Arial', sans-serif; font-size: 1.8rem; color: #fff; text-shadow: 0 0 5px #0000ff, 0 0 10px #0000ff, 0 0 20px #0000ff, 0 0 30px #0000ff; text-align: center;" class="mb-4" >
-      متجرك الالكتروني الأول بين يديك
-    </h1>
-    <swiper
-      :modules="[Autoplay]"
-      :loop="true"
-      :autoplay="{ delay: 2500, disableOnInteraction: false }"
-      :slides-per-view="1"
-      :space-between="10"
-      :breakpoints="{
-        768: {
-          slidesPerView: 5,
-          spaceBetween: 20,
-        }
-      }"
-      class="mySwiper"
-    >
-      <swiper-slide class="px-4" v-for="(img, index) in images" :key="index">
-        <img  class="w-32 " :src="img" alt="slider image" />
-      </swiper-slide>
-     
-</swiper>
+    <div class="relative  w-full z-20 bg-yellow-200 text-center py-2 shadow-md overflow-hidden rounded-md mb-4">
+    <div class="marquee-text">
+      🚧 الموقع تحت الإنشاء – الخدمة الوحيدة المتاحة حاليًا هي ⭐
+      <span class="text-blue-700 font-bold">ستارلينك</span> – شكرًا لصبركم ❤️
+    </div>
+  </div>
+  <!-- عنوان القسم -->
+  <h1 style="font-family: 'Arial', sans-serif; font-size: 1.8rem; color: #fff; text-shadow: 0 0 2px #0000ff, 0 0 10px #0000ff, 0 0 20px #0000ff, 0 0 30px #0000ff; text-align: center;" class="mb-4">
+    متجرك الالكتروني الأول بين يديك
+  </h1>
 
-<div>
-    <h1 style="font-family: 'Arial', sans-serif; font-size: 2rem; color: #000; text-align: right; margin: 20px 0; border-bottom: 3px solid #000; padding-bottom: 10px; text-shadow: 0 0 5px #000, 0 0 10px #000;" class="pr-4">
+  <!-- السلايدر -->
+  <swiper
+    :modules="[Autoplay]"
+    :loop="true"
+    :autoplay="{ delay: 2500, disableOnInteraction: false }"
+    :slides-per-view="1"
+    :space-between="10"
+    :breakpoints="{
+      768: {
+        slidesPerView: 5,
+        spaceBetween: 20,
+      }
+    }"
+    class="mySwiper"
+  >
+    <swiper-slide class="px-4" v-for="(img, index) in images" :key="index">
+      <img class="w-32" :src="img" alt="slider image" />
+    </swiper-slide>
+  </swiper>
+
+  <!-- المحتوى الرئيسي: الشريط الجانبي + الخدمات -->
+  <div class="flex flex-col md:flex-row gap-6 mt-8 px-4">
+    <!-- الشريط الجانبي -->
+    <aside class="hidden md:block mt-20 md:w-1/4 w-full bg-white rounded-lg shadow-md p-4 space-y-6 text-right">
+      <div>
+        <h3 class="font-bold text-gray-700 mb-2">📦 الاشتراكات</h3>
+        <ul class="space-y-1">
+          <li>🎨 برامج التصميم</li>
+          <li>📁 أدوات الإنتاجية</li>
+          <li>🛡️ VPN والحماية</li>
+          <li>🎬 الترفيه</li>
+          <li>📚 التعليم</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-gray-700 mb-2">💳 المدفوعات</h3>
+        <ul class="space-y-1">
+          <li>💰 شحن المحافظ</li>
+          <li>💳 بطاقات مسبقة</li>
+          <li>🎮 شحن الألعاب</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-gray-700 mb-2">💼 الخدمات الرقمية</h3>
+        <ul class="space-y-1">
+          <li>🖌️ تصميم وجرافيك</li>
+          <li>✍️ كتابة</li>
+          <li>🌍 ترجمة</li>
+          <li>📣 تسويق</li>
+          <li>💻 برمجة</li>
+          <li>🎓 خدمات أكاديمية</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- قسم الخدمات -->
+    <div class="md:w-3/4 w-full">
+      <h1 style="font-family: 'Arial', sans-serif; font-size: 2rem; color: #000; text-align: right; margin-bottom: 20px; border-bottom: 3px solid #000; padding-bottom: 10px; text-shadow: 0 0 5px #000, 0 0 10px #000;" class="pr-4">
         الخدمات
-    </h1>
-    </div>
-    <div>
+      </h1>
 
+      <div class="services-container">
+        <div v-for="(service, index) in services" :key="index" class="service-card">
+          <h2 class="service-title">{{ service.title }}</h2>
+          <img class="w-32 mx-auto" :src="service.img" alt="service image" />
+          <p class="service-description mb-10">{{ service.description }}</p>
+          <a :href="`${service.link}`" class="order-button">
+            اطلب الآن
+          </a>
+        </div>
+      </div>
     </div>
-<div class="services-container">
-    <div v-for="(service, index) in services" :key="index" class="service-card">
-      <h2 class="service-title">{{ service.title }}</h2>
-      <img class="w-32 mx-auto" :src="service.img" alt="slider " />
-      <p class="service-description mb-10">{{ service.description }}</p>
-  <a :href="service.link" class="order-button ">
-  اطلب الآن
-</a>
-    </div>
-    </div>
+  </div>
+</template>
 
-  </template>
-  
-  <script setup>
-  import { Swiper, SwiperSlide } from 'swiper/vue';
-  import { Autoplay } from 'swiper/modules';
-  import 'swiper/css';
-  import catogres from './cato.json'; // استيراد ملف JSON الذي يحتوي على الخدمات
-  // import img3 from '@/assets/img3.jpeg'; // استيراد الصورة هنا
-  import img4 from '@/assets/img4.jpg'; // استيراد الصورة هنا
-  // import img5 from '@/assets/img5.jpeg'; // استيراد الصورة هنا
-  // import tagdem from '@/assets/tagdem.png'; // استيراد الصورة هنا
-  
-  // المصفوفة تحتوي الآن على المسارات التي تم استيرادها
+<script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+
+import catogres from './cato.json';
+import img4 from '@/assets/img4.jpg';
+
 const services = catogres.map(service => ({
   ...service,
   img: service.img || img4
 }));
 
-// استخراج الصور
 const images = services.map(service => service.img);
-      
+</script>
 
-  </script>
-  <style scoped>.services-container {
+<style scoped>
+.services-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
   margin-top: 20px;
-  padding: 0 12px;
 }
 
 .service-card {
@@ -78,6 +115,11 @@ const images = services.map(service => service.img);
   border-radius: 10px;
   padding: 16px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  justify-content: space-between;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease;
   direction: rtl;
@@ -104,8 +146,8 @@ const images = services.map(service => service.img);
 }
 
 .service-card img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
   margin: 0 auto 12px;
 }
@@ -126,7 +168,6 @@ const images = services.map(service => service.img);
   background-color: #3f19b5;
 }
 
-/* السلايدر */
 .mySwiper {
   width: 100%;
   margin-bottom: 20px;
@@ -139,8 +180,9 @@ const images = services.map(service => service.img);
 }
 
 .swiper-slide img {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
+  padding: 0;
   object-fit: contain;
   border-radius: 10px;
   transition: transform 0.3s ease;
@@ -153,21 +195,59 @@ const images = services.map(service => service.img);
 @media (min-width: 768px) {
   .service-card {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    justify-content: space-between;
   }
+
   .service-title {
     font-size: 1.4rem;
   }
+
   .service-description {
     font-size: 1rem;
   }
+
   .service-card img {
     width: 120px;
     height: 120px;
   }
+
   .swiper-slide img {
     width: 150px;
     height: 150px;
   }
 }
 
-  </style>
+
+.marquee-container {
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fef3c7; /* أصفر فاتح */
+  text-align: center;
+  padding: 0.5rem 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.marquee-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 15s linear infinite;
+  font-weight: bold;
+  color: #78350f;
+  font-size: 1rem;
+  padding-left: 100%;
+
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+</style>

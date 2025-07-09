@@ -15,6 +15,7 @@ import Admin from '../views/admin/AdminPanel.vue'
 import Dashboard from '../views/admin/AdminDashboard.vue'
 import Users from '../views/admin/AdminUsers.vue'
 import Orders from '../views/admin/AdminOrders.vue'
+import NotFound from '@/views/NotFound.vue'
 
 import test from '../views/testImage.vue'
 // إعداد التوجيه
@@ -33,7 +34,19 @@ const router = createRouter({
     { path: '/admin/orders', name: 'Orders', component: Orders },
     { path: '/contact', name: 'Contact', component: Contact },
     { path: '/whous', name: 'Whous', component: Whous } , 
-    { path: '/test', name: 'test', component: test } 
+    { path: '/test', name: 'test', component: test }  ,
+    {
+  path: '/product/:id',
+  name: 'ProductDetails',
+  component: () => import('@/views/ProductDetails.vue') // أنشئ هذا الملف
+} ,
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound ,
+        meta: { layout: 'empty' } // هذا يخفي الفوتر والنافبار
+
+  }
   ]
 })
 
