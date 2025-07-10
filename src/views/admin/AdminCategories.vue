@@ -42,7 +42,7 @@ const categories = ref([])
 const newCategory = ref('')
 const newSubCategory = ref({})
 
-const API_BASE = 'http://localhost:8081/api/categories' // تأكد من أن هذا الرابط صحيح
+const API_BASE = 'https://prostoreserver.onrender.com/api/categories' // تأكد من أن هذا الرابط صحيح
 
 async function fetchCategories() {
   const res = await axios.get(API_BASE)

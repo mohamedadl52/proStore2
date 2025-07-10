@@ -25,7 +25,7 @@
     </div>
 
     <!-- معلومات الدفع -->
-    <div class="text-gray-400">💳 فيزا - مدى - STC Pay - Apple Pay</div>
+    <div class="text-gray-400">💳 فيزا - بنكك - فوري - اوكاش</div>
 
   </footer>
 </template>

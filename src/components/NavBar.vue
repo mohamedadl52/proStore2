@@ -111,6 +111,7 @@
         <ul class="flex flex-wrap justify-center gap-6 text-white">
           <li><a href="/">🏠 الرئيسية</a></li>
           <li><a href="/subscriptions">📦 الاشتراكات</a></li>
+          <li><a href="/subscriptions">📱مشاكل الهواتف</a></li>
           <li><a href="/payments">💳 المدفوعات</a></li>
           <li><a href="/services">💼 الخدمات الرقمية</a></li>
           <li><a href="/offers">🔥 العروض</a></li>
