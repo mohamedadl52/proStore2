@@ -413,6 +413,7 @@ axios.post("https://api.cloudinary.com/v1_1/dekh1kgki/image/upload", formData)
         zambia: { name: "زامبي", currency: "ZMW", defaultValue: 2500 },
         rwanda: { name: "رواندي", currency: "RWF", defaultValue: 128000 },
         japan: { name: "ياباني", currency: "JPY", defaultValue: 14400 },
+        Philippine: { name: "فلبين", currency: "PHP", defaultValue: 5700 }
       }
       const countryData = countryMap[value];
       if (countryData && this.exchangeRates) {
@@ -493,6 +494,7 @@ console.log("🛠️ القيم الناقصة:", requiredFields.filter(field =>
   if (this.identityImage && !this.identityImageUrl) {
   this.identityImageUrl = await this.uploadImageToCloudinary(this.identityImage);
 }
+
 if (this.invoiceImage && !this.invoiceImageUrl) {
   this.invoiceImageUrl = await this.uploadImageToCloudinary(this.invoiceImage);
 }
@@ -517,7 +519,7 @@ console.log("📤 إرسال بيانات المشكلة:", payload);
   axios.post("https://prostoreserver.onrender.com/api/starlink/submit-issue", payload)
     .then(() => {
         this.submitting = false; // ← أنهي التحميل في كل الأحوال
-      this.showSuccessModal = true;
+        this.showSuccessModal = true;
 
       // this.$router.push('/profile'); // إعادة التوجيه إلى الصفحة الرئيسية
      
