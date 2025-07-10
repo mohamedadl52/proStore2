@@ -138,6 +138,7 @@
             <option value="zambia">زامبي</option>
             <option value="rwanda">رواندي</option>
             <option value="japan">ياباني</option>
+            <option value="Philippine">فلبين</option>
           </select>
         </div>
 
