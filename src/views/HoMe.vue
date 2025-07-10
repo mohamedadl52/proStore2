@@ -33,37 +33,30 @@
   <!-- المحتوى الرئيسي: الشريط الجانبي + الخدمات -->
   <div class="flex flex-col md:flex-row gap-6 mt-8 px-4">
     <!-- الشريط الجانبي -->
-    <aside class="hidden md:block mt-20 md:w-1/4 w-full bg-white rounded-lg shadow-md p-4 space-y-6 text-right">
-      <div>
-        <h3 class="font-bold text-gray-700 mb-2">📦 الاشتراكات</h3>
-        <ul class="space-y-1">
-          <li>🎨 برامج التصميم</li>
-          <li>📁 أدوات الإنتاجية</li>
-          <li>🛡️ VPN والحماية</li>
-          <li>🎬 الترفيه</li>
-          <li>📚 التعليم</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-bold text-gray-700 mb-2">💳 المدفوعات</h3>
-        <ul class="space-y-1">
-          <li>💰 شحن المحافظ</li>
-          <li>💳 بطاقات مسبقة</li>
-          <li>🎮 شحن الألعاب</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-bold text-gray-700 mb-2">💼 الخدمات الرقمية</h3>
-        <ul class="space-y-1">
-          <li>🖌️ تصميم وجرافيك</li>
-          <li>✍️ كتابة</li>
-          <li>🌍 ترجمة</li>
-          <li>📣 تسويق</li>
-          <li>💻 برمجة</li>
-          <li>🎓 خدمات أكاديمية</li>
-        </ul>
-      </div>
-    </aside>
+   <aside class="hidden md:block mt-20 md:w-1/4 w-full bg-white rounded-lg shadow-md p-4 space-y-6 text-right">
+  <h4 class="text-lg font-semibold mt-4">تفاصيل الأقسام:</h4>
+  
+  <div
+    v-for="(faculty, index) in faculties"
+    :key="index"
+    class="mb-6 border-b border-gray-200 pb-4"
+  >
+    <h5 class="text-base font-bold text-blue-800 mb-2">{{ faculty.name }}</h5>
+    
+    <div class="flex flex-wrap gap-2 justify-start rtl">
+      <span
+        v-for="(branch, i) in faculty.children"
+        :key="i"
+        class="inline-block bg-blue-50 text-blue-800 text-sm px-3 py-1 rounded-full border border-blue-200 hover:bg-blue-100 transition-all duration-200"
+      >
+        {{ branch.name }}
+      </span>
+    </div>
+  </div>
+</aside>
+
+
+    
 
     <!-- قسم الخدمات -->
     <div class="md:w-3/4 w-full">
@@ -89,9 +82,24 @@
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-
+import { ref , onMounted } from 'vue';
+import axios from 'axios';
 import catogres from './cato.json';
 import img4 from '@/assets/img4.jpg';
+const faculties = ref([]);
+
+async function fetchFaculties() {
+  try {
+    const res = await axios.get(`https://prostoreserver.onrender.com/api/categories`);
+    faculties.value = res.data;
+  } catch (err) {
+    console.error("خطأ في تحميل الأقسام:", err);
+  }
+}
+
+onMounted(() => {
+  fetchFaculties();
+});
 
 const services = catogres.map(service => ({
   ...service,
@@ -250,4 +258,19 @@ const images = services.map(service => service.img);
     transform: translateX(0%);
   }
 }
+aside h5 {
+  font-family: "Cairo", sans-serif;
+}
+
+aside span {
+  cursor: pointer;
+  font-family: "Cairo", sans-serif;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+aside span:hover {
+  transform: scale(1.05);
+  background-color: #dbeafe;
+}
+
 </style>

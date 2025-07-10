@@ -129,37 +129,24 @@
   class="fixed right-0 w-64 bg-white shadow-lg p-4 z-50 mt-4 overflow-y-auto"
   style="top: 60px; height: calc(100vh - 60px); direction: rtl;"
 >
+<div
+    v-for="(faculty, index) in faculties"
+    :key="index"
+    class="mb-6 border-b border-gray-200 pb-4"
+  >
+    <h5 class="text-base font-bold text-blue-800 mb-2">{{ faculty.name }}</h5>
+    
+    <div class="flex flex-wrap gap-2 justify-start rtl">
+      <span
+        v-for="(branch, i) in faculty.children"
+        :key="i"
+        class="inline-block bg-blue-50 text-blue-800 text-sm px-3 py-1 rounded-full border border-blue-200 hover:bg-blue-100 transition-all duration-200"
+      >
+        {{ branch.name }}
+      </span>
+    </div>
+  </div>
 
-    <!-- محتوى القائمة كما هو -->
-    <div>
-      <h3 class="font-bold text-gray-700 mb-2">📦 الاشتراكات</h3>
-      <ul class="space-y-1">
-        <li>🎨 برامج التصميم</li>
-        <li>📁 أدوات الإنتاجية</li>
-        <li>🛡️ VPN والحماية</li>
-        <li>🎬 الترفيه</li>
-        <li>📚 التعليم</li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="font-bold text-gray-700 mb-2">💳 المدفوعات</h3>
-      <ul class="space-y-1">
-        <li>💰 شحن المحافظ</li>
-        <li>💳 بطاقات مسبقة</li>
-        <li>🎮 شحن الألعاب</li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="font-bold text-gray-700 mb-2">💼 الخدمات الرقمية</h3>
-      <ul class="space-y-1">
-        <li>🖌️ تصميم وجرافيك</li>
-        <li>✍️ كتابة</li>
-        <li>🌍 ترجمة</li>
-        <li>📣 تسويق</li>
-        <li>💻 برمجة</li>
-        <li>🎓 خدمات أكاديمية</li>
-      </ul>
-    </div>
   </aside>
 </transition>
 
@@ -394,7 +381,7 @@
 
 <script>
 import profilePic from '@/assets/profile.png';
-
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -406,11 +393,22 @@ export default {
       profilePic,
       searchQuery: '', // ✅ متغير البحث
       showMobileSearch: false, // ✅ جديد
+      faculties: [], // ✅ جديد
+
 
     };
   },
   methods: {
 
+async  fetchFaculties() {
+  try {
+    const res = await axios.get(`https://prostoreserver.onrender.com/api/categories`);
+    console.log("الأقسام:", res.data); // ✅ طباعة الأقسام في الكونسول
+  this.faculties = res.data;
+  } catch (err) {
+    console.error("خطأ في تحميل الأقسام:", err);
+  }
+},
     
     
     
@@ -458,6 +456,7 @@ if (aside && !aside.contains(event.target) && !event.target.closest(".hamburger"
   },
   mounted() {
     this.checkScreen();
+    this.fetchFaculties()
     window.addEventListener('resize', this.checkScreen);
     document.addEventListener('click', this.closeUserMenuOutside);
 
