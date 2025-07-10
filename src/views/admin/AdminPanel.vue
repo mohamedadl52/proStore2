@@ -26,6 +26,7 @@
           <button class="w-full hover:bg-gray-700 p-2 rounded" @click="setView('price')">السعر</button>
           <button class="w-full hover:bg-gray-700 p-2 rounded" @click="setView('users')">المستخدمين</button>
           <button class="w-full hover:bg-gray-700 p-2 rounded" @click="setView('orders')">الطلبات</button>
+          <button class="w-full hover:bg-gray-700 p-2 rounded" @click="setView('categories')">الأقسام</button>
           <button class="w-full mt-4 lg:hidden bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" @click="logout">
             تسجيل الخروج
           </button>
@@ -53,6 +54,7 @@
         <AdminUsers v-if="view === 'users'" />
         <AdminOrders v-if="view === 'orders'" />
         <AdminPrice v-if="view === 'price'" />
+        <AdminCategories v-if="view === 'categories'" />
 
       </main>
     </div>
@@ -64,6 +66,7 @@ import { ref } from 'vue'
 import AdminUsers from './AdminUsers.vue'
 import AdminOrders from './AdminOrders.vue'
 import AdminPrice from './AdminPrice.vue'
+import AdminCategories from './AdminCategories.vue'
 
 const view = ref('users')
 const showSidebar = ref(false)

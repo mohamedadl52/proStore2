@@ -1,6 +1,5 @@
 <template>
   <div>
-      <h1 class="text-3xl font-bold text-center mb-4">الملف الشخصي</h1>
 <div class="py-6 px-4 bg-gray-100 flex justify-center">
 <div class="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-md sm:p-8">
         <!-- صورة المستخدم -->
@@ -13,7 +12,6 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-1">{{ user.name }}</h2>
         <p class="text-gray-600">{{ user.email }}</p>
         <p class="text-gray-600 mb-4">{{ user.phone }}</p>
-
         <!-- زر تعديل -->
         <button
           @click="openModal = true"
@@ -23,36 +21,48 @@
         </button>
       </div>
     </div>
-    <div class="mt-8 bg-white  p-4 rounded shadow">
-  <h3 class="text-xl font-semibold mb-4 text-center">الطلبات السابقة</h3>
-  <div v-if="orders.length">
-    
-<table class="w-full text-right px-6 border" dir="rtl">
-  <thead class="bg-gray-100">
-    <tr>
-      <th class="border p-2">#</th>
-      <th class="border p-2">نوع الخدمة</th>
-      <th class="border p-2">تاريخ الطلب</th>
-      <th class="border p-2">تفاصيل</th>
-      <th class="border p-2">الحالة</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="(order, index) in orders" :key="order._id">
-      <td class="border p-2 text-center">{{ index + 1 }}</td>
-      <td class="border p-2 text-center">تقديم إلكتروني</td>
-      <td class="border p-2 text-center">{{ new Date(order.createdAt).toLocaleDateString() }}</td>
-      <td class="border p-2 text-center">
-        <button @click="viewOrder(order)" class="text-blue-600 hover:underline">عرض التفاصيل</button>
-      </td>
-      <td class="border p-2 text-center">{{ order.status || 'جاري التقديم' }}</td>
-    </tr>
-  </tbody>
-</table>
+  <div class="mt-8 bg-white p-4 rounded shadow">
+  <h3 class="text-xl font-semibold mb-4 text-center">كل الطلبات</h3>
 
+  <div v-if="allOrders.length">
+    <table class="w-full text-right px-6 border" dir="rtl">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border p-2">#</th>
+          <th class="border p-2">نوع الطلب</th>
+          <th class="border p-2">تاريخ الطلب</th>
+          <th class="border p-2">الحالة</th>
+          <th class="border p-2">تفاصيل</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in allOrders" :key="item.id">
+          <td class="border p-2 text-center">{{ item.index }}</td>
+          <td class="border p-2 text-center">{{ item.type }}</td>
+          <td class="border p-2 text-center">{{ item.date }}</td>
+          <td class="border p-2 text-center">
+            <span
+              :class="getStarlinkStatusClass(item.status)"
+              class="px-3 py-1 rounded-full text-sm font-medium animate-fade-in"
+            >
+              {{ item.status }}
+            </span>
+          </td>
+          <td class="border p-2 text-center">
+            <button
+              class="text-blue-600 hover:underline"
+              @click="item.type === 'Starlink' ? viewStarlinkOrder(item.order) : viewOrder(item.order)"
+            >
+              عرض
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div v-else class="text-center text-gray-600 mt-4">لا توجد طلبات بعد.</div>
 </div>
+
 <!-- نافذة عرض تفاصيل الطلب -->
 <div v-if="showOrderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
   <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
@@ -77,37 +87,7 @@
 </div>
 
 <!-- starlink -->
-<h3 class="text-xl   font-semibold mt-10 mb-4 text-center">طلبات Starlink</h3>
-<div v-if="starlinkOrders.length" class="px-8" >
-  <table class="w-full   text-right border" dir="rtl">
-    <thead class="bg-gray-100">
-      <tr>
-        <th class="border p-2">#</th>
-        <th class="border p-2">نوع المشكلة</th>
-        <th class="border p-2">التاريخ</th>
-        <th class="border p-2">الحالة</th>
-        <th class="border p-2">تفاصيل</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(order, index) in starlinkOrders" :key="order._id">
-        <td class="border p-2 text-center">{{ index + 1 }}</td>
-<td class="border p-2 text-center">{{ translateIssueType(order.issueType) }}</td>
-        <td class="border p-2 text-center">{{ new Date(order.createdAt).toLocaleDateString() }}</td>
-<td class="border p-2 text-center">
-  <span
-    :class="getStarlinkStatusClass(order.status)"
-    class="px-3 py-1 rounded-full text-sm font-medium animate-fade-in"
-  >
-    {{ translateStatus(order.status) }}
-  </span>
-</td>        <td class="border p-2 text-center">
-          <button @click="viewStarlinkOrder(order)" class="text-blue-600 hover:underline">عرض</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+
 <div v-else class="text-center text-gray-600 mt-4">لا توجد طلبات Starlink بعد.</div>
 
 
@@ -119,7 +99,13 @@
 <p><strong>نوع المشكلة:</strong> {{ translateIssueType(selectedStarlink.issueType) }}</p>
       <p><strong>الاسم:</strong> {{ selectedStarlink.fullName }}</p>
       <p><strong>البريد الإلكتروني:</strong> {{ selectedStarlink.email }}</p>
+      <p><strong>كلمه السر</strong> {{ selectedStarlink.email }}</p>
       <p><strong>رقم الهاتف:</strong> {{ selectedStarlink.phone }}</p>
+      <p><strong> العنوان</strong> {{ selectedStarlink.address }}</p>
+      <p><strong>رقم الطبق:</strong> {{ selectedStarlink.kitNumber }}</p>
+      <p><strong>رقم الحساب(acc):</strong> {{ selectedStarlink.accountNumber }}</p>
+      <p><strong>رقم الكت(kitNumber) :</strong> {{ selectedStarlink.dishNumber }}</p>
+      <p><strong> starlink ID :</strong> {{ selectedStarlink.starlinkID }}</p>
       <p><strong>الحالة:</strong> {{ selectedStarlink.status }}</p>
      <p><strong>تفاصيل:</strong> {{ selectedStarlink.details }}</p>
     </div>
@@ -220,12 +206,34 @@
         <div class="mt-6 flex justify-between">
         
           <button
-            @click="saveToServer"
-            class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-        
-            >
-             حفظ
-          </button>
+  @click="saveToServer"
+  :disabled="isLoading"
+  class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded flex items-center justify-center gap-2"
+>
+  <svg
+    v-if="isLoading"
+    class="w-5 h-5 animate-spin text-white"
+    fill="none"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle
+      class="opacity-25"
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      stroke-width="4"
+    ></circle>
+    <path
+      class="opacity-75"
+      fill="currentColor"
+      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+    ></path>
+  </svg>
+  <span>{{ isLoading ? 'جاري الحفظ...' : 'حفظ' }}</span>
+</button>
+
           <button
             @click="openModal = false"
             class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
@@ -257,6 +265,43 @@ const imageModalUrl = ref('');
 function openImageModal(url) {
   imageModalUrl.value = url;
 }
+import { computed } from 'vue';
+
+const allOrders = computed(() => {
+  const normal = orders.value.map((order, index) => ({
+    id: order._id,
+    type: 'إلكتروني',
+    index: index + 1,
+    date: new Date(order.createdAt).toLocaleDateString(),
+    status: order.status || 'جاري التقديم',
+    order,
+  }));
+
+  const starlink = starlinkOrders.value.map((order, index) => ({
+    id: order._id,
+    type: 'Starlink',
+    index: orders.value.length + index + 1,
+    date: new Date(order.createdAt).toLocaleDateString(),
+    status: translateStatus(order.status),
+    order,
+  }));
+
+  return [...normal, ...starlink];
+});
+
+
+//   const starlink = starlinkOrders.value.map((order, index) => ({
+//     id: order._id,
+//     type: 'Starlink',
+//     index: orders.value.length + index + 1,
+//     date: new Date(order.createdAt).toLocaleDateString(),
+//     status: translateStatus(order.status),
+//     order,
+//   }));
+
+//   return [...normal, ...starlink];
+// });
+
 onMounted(() => {
   fetchStarlinkOrders();
 });
@@ -373,24 +418,30 @@ onMounted(() => {
   }
 });
 
+const isLoading = ref(false);
 
 async function saveToServer() {
+  isLoading.value = true;
   try {
-    console.log('Saving user data to server...');
-    const response = await AuthService.updateProfile(editUser.value, token);
-    let token = ''
-    // حفظ البيانات الجديدة في localStorage
     const stored = JSON.parse(localStorage.getItem('user'));
+    const token = stored?.token;
+
+    const response = await AuthService.updateProfile(editUser.value, token);
+
+    // تحديث البيانات
     stored.user = response.data.user;
     localStorage.setItem('user', JSON.stringify(stored));
-
     user.value = { ...response.data.user };
     editUser.value = { ...response.data.user };
     openModal.value = false;
   } catch (error) {
+    console.error('Error updating profile:', error);
     alert(error.response?.data?.msg || 'حدث خطأ أثناء التحديث');
+  } finally {
+    isLoading.value = false;
   }
 }
+
 
 
 // function saveToLocalStorage() {
